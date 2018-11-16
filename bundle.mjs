@@ -3,10 +3,11 @@ import getSummaryFromZip from './lib/get-summary-from-zip';
 import htmldiff from './lib/htmldiff';
 
 export default function zip2forecast(zip) {
+	const root = document.getElementById('root');
+
 	getSummaryFromZip(zip).then(
 		summary => {
 			const fragmentHTML = getFragmentHTMLFromSummary(summary);
-			const root = document.getElementById('root');
 
 			htmldiff(root, fragmentHTML);
 		}

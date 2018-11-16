@@ -1,6 +1,6 @@
 import fetch from 'node-fetch'; global.fetch = fetch;
 import express from 'express';
-import zipPromise from './lib/zip-promise';
+import getZIP from './lib/get-zip';
 import getSummaryFromZip from './lib/get-summary-from-zip';
 import getDocumentHTMLFromSummary from './lib/get-document-html-from-summary';
 
@@ -11,7 +11,7 @@ app.use(express.static('public'));
 app.get('/', (request, response) => {
 	response.set('Content-Type', 'text/html');
 
-	zipPromise.then(
+	getZIP.then(
 		zip => getSummaryFromZip(zip)
 	).then(
 		summary => {
@@ -24,4 +24,4 @@ app.get('/', (request, response) => {
 
 app.listen(3000);
 
-console.log('http://localhost:3000/');
+console.log('Server started: http://localhost:3000/');
