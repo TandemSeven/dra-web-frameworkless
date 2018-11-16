@@ -2,7 +2,7 @@
 
 This is a DRA to fetch weather with native web APIs. It renders server side and
 uses the same script to power dynamic changes on the frontend. The frontend
-bundle is 3.13 kB.
+bundle is 3.03 kB.
 
 ## Usage
 
