@@ -1,0 +1,27 @@
+{
+  "name": "dra-web-frameworkless",
+  "version": "0.1.0",
+  "description": "Fetch the weather with native web APIs",
+  "scripts": {
+    "build": "rollup -c --silent",
+    "start": "npm run build && npm run start:express",
+    "start:express": "node --experimental-modules start"
+  },
+  "dependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "domdiff": "^2.0.0",
+    "eslit": "^5.0.0",
+    "express": "^4.16.4",
+    "ip": "^1.1.5",
+    "node-fetch": "^2.3.0",
+    "public-ip": "^2.4.0",
+    "rollup": "^0.67.1",
+    "rollup-plugin-babel": "^4.0.3",
+    "rollup-plugin-commonjs": "^9.2.0",
+    "rollup-plugin-html": "^0.2.1",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-terser": "^3.0.0"
+  },
+  "private": true
+}

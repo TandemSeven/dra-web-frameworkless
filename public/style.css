@@ -1,0 +1,111 @@
+body {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+header {
+	background-position: center;
+	background-size: cover;
+	color: #fff;
+	display: flex;
+	height: 70vh;
+	min-height: 500px;
+	position: relative;
+	transition: background-image 400ms;
+}
+
+@media (max-width: 639px) {
+	header {
+		flex-direction: column-reverse;
+		justify-content: flex-end;
+		padding: 32px;
+		text-align: center;
+	}
+}
+
+@media (min-width: 640px) {
+	header {
+		justify-content: space-between;
+		padding: 96px;
+	}
+}
+
+header svg {
+	bottom: 0;
+	left: 0;
+	position: absolute;
+	right: 0;
+	width: 100%;
+}
+
+header h1 {
+	font-size: 40px;
+	font-weight: 200;
+	margin: 0 0 1rem;
+	text-shadow: 0 2px 3px black;
+}
+
+header h1 strong {
+	font-weight: 700;
+}
+
+header h2 {
+	font-size: 24px;
+	font-weight: 200;
+	margin: 0 0 1rem;
+	text-shadow: 0 2px 12px black, 0 2px 6px black, 0 2px 3px black;
+}
+
+header h3 {
+	align-items: center;
+	display: inline-flex;
+	margin: 0;
+	font-weight: 400;
+	text-shadow: 0 2px 3px black;
+}
+
+header h3 span {
+	font-size: 120px;
+}
+
+header h3 sup {
+	font-size: 36px;
+	margin-left: .5em;
+}
+
+header > span {
+	font-size: 24px;
+	font-weight: 200;
+	text-shadow: 0 2px 6px black;
+}
+
+section {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 130px);
+	justify-content: center;
+	margin: 0 auto;
+	max-width: 75rem;
+	padding: 2.5rem;
+}
+
+article {
+	text-align: center;
+}
+
+article > h2 {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+article > p {
+	font-size: 16px;
+}
+
+article > p > svg {
+	height: 56px;
+	width: 56px;
+}
+
+article > p > span:first-child {
+	font-weight: 600;
+}
