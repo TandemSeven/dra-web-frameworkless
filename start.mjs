@@ -22,6 +22,23 @@ app.get('/', (request, response) => {
 	)
 });
 
+const pathRegExp = /^\/(\d+)$/;
+
+app.get(pathRegExp, (request, response) => {
+	response.set('Content-Type', 'text/html');
+
+	const [, zipString] = request.path.match(pathRegExp);
+	const zip = Number(zipString);
+
+	getSummaryFromZip(zip).then(
+		summary => {
+			const documentHTML = getDocumentHTMLFromSummary(summary)
+
+			response.send(documentHTML);
+		}
+	);
+});
+
 app.listen(3000);
 
 console.log('Server started: http://localhost:3000/');

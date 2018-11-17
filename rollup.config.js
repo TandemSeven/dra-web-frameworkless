@@ -4,7 +4,7 @@ import { terser } from 'rollup-plugin-terser';
 
 export default {
 	input: 'bundle',
-	output: { file: 'public/bundle.js', format: 'iife', name: 'zip2forecast' },
+	output: { file: 'public/bundle.js', format: 'iife', name: 'bundle' },
 	plugins: [
 		resolve({
 			only: ['domdiff']

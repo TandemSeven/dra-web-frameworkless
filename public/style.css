@@ -1,9 +1,14 @@
+* {
+	box-sizing: border-box;
+}
+
 body {
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 
 header {
+	background-color: #00adcf;
 	background-position: center;
 	background-size: cover;
 	color: #fff;
@@ -84,8 +89,7 @@ section {
 	grid-template-columns: repeat(auto-fill, 130px);
 	justify-content: center;
 	margin: 0 auto;
-	max-width: 75rem;
-	padding: 2.5rem;
+	max-width: 910px;
 }
 
 article {
@@ -108,4 +112,14 @@ article > p > svg {
 
 article > p > span:first-child {
 	font-weight: 600;
+}
+
+aside {
+	display: flex;
+	justify-content: center;
+}
+
+aside > a {
+	display: inline-block;
+	margin: 0 10px;
 }
