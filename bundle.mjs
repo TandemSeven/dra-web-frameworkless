@@ -7,6 +7,8 @@ export default function bundle(initialZIP) {
 
 	window.addEventListener('popstate', onStateChange);
 	window.addEventListener('click', onClick);
+	window.addEventListener('input', onInput);
+	window.addEventListener('submit', onSubmit);
 
 	setInterval(() => {
 		zip2forecast();
@@ -33,10 +35,35 @@ export default function bundle(initialZIP) {
 	}
 
 	function onClick(event) {
-		const nextZIP = Number(event.target.pathname.slice(1));
+		// detect toggle
+		if (event.target.classList.contains('dra-nav-toggle')) {
+			document.querySelector('.dra-nav').classList.toggle('is-open');
+		} else if (event.target.pathname) {
+			const nextZIP = event.target.pathname.slice(1);
 
-		if (nextZIP) {
-			event.preventDefault();
+			if (nextZIP) {
+				event.preventDefault();
+
+				window.history.pushState(nextZIP, null, nextZIP);
+
+				onStateChange({ state: nextZIP });
+			}
+		}
+	}
+
+	function onInput(event) {
+		if (event.target.labels) {
+			event.target.labels[0].classList.toggle('not-blank', event.target.value);
+		}
+	}
+
+	function onSubmit(event) {
+		event.preventDefault();
+
+		const nextZIP = event.target.elements.zip.value;
+
+		if (currentZIP) {
+			document.querySelector('.dra-nav').classList.remove('is-open');
 
 			window.history.pushState(nextZIP, null, nextZIP);
 

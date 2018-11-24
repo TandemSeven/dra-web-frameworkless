@@ -40,6 +40,7 @@ header svg {
 	left: 0;
 	position: absolute;
 	right: 0;
+	max-height: calc(100vh / 2.32);
 	width: 100%;
 }
 
@@ -85,6 +86,7 @@ header > span {
 }
 
 section {
+	display: flex;
 	display: grid;
 	grid-template-columns: repeat(auto-fill, 130px);
 	justify-content: center;
@@ -122,4 +124,127 @@ aside {
 aside > a {
 	display: inline-block;
 	margin: 0 10px;
+}
+
+.dra-nav {
+	background-color: rgba(0, 0, 0, .8);
+	bottom: 0;
+	box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+	max-width: 100%;
+	padding: 80px 20px;
+	position: fixed;
+	right: 0;
+	top: 0;
+	transform: translateX(100%);
+	transition: transform 300ms;
+	width: 500px;
+}
+
+.dra-nav.is-open {
+	transform: translateX(0%);
+}
+
+.dra-nav-toggle {
+	background-color: transparent;
+	border: none;
+	color: #ffffff;
+	height: 1.5em;
+	padding: 0;
+	position: absolute;
+	left: 20px;
+	top: 20px;
+	transform: translateX(-60px);
+	transition: transform 300ms;
+	width: 1.5em;
+}
+
+.is-open .dra-nav-toggle {
+	transform: translateX(0%);
+}
+
+.dra-nav-toggle svg {
+	height: 100%;
+	width: 100%;
+}
+
+.dra-nav:not(.is-open) use:nth-child(1) {
+	display: none;
+}
+
+.dra-nav.is-open use:nth-child(2) {
+	display: none;
+}
+
+.dra-nav:not(.is-open) .dra-nav-form {
+	visibility: hidden;
+}
+
+.dra-field {
+	position: relative;
+}
+
+.dra-input, .dra-label {
+	padding: 15px;
+}
+
+.dra-input {
+	border: none;
+	border-radius: 30px;
+	font: inherit;
+}
+
+.dra-label {
+	position: absolute;
+	bottom: 0;
+	top: 0;
+	transition: all 400ms;
+}
+
+.dra-input:focus + .dra-label, .dra-label.not-blank {
+	color: #ffffff;
+	font-size: 75%;
+	padding: 0 calc(1em * 10 / 6);
+	top: -1.5em;
+}
+
+.dra-nav-form {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.dra-field {
+	flex-basis: 100%;
+}
+
+.dra-input {
+	width: 100%;
+}
+
+.dra-search, .dra-current_location {
+	border: none;
+	border-radius: 2.5em;
+	cursor: pointer;
+	line-height: 1.25;
+	padding: .75em 1em;
+	flex-basis: calc(50% - 10px);
+}
+
+.dra-search {
+	background-color: #ff545e;
+	color: #ffffff;
+}
+
+.dra-search:hover, .dra-search:focus {
+	background-color: #eb0010;
+}
+
+.dra-current_location {
+	background-color: rgba(0, 0, 0, .1);
+	box-shadow: inset 0 0 0 1px currentColor;
+	color: #00adcf;
+}
+
+.dra-current_location:hover, .dra-current_location:focus {
+	color: #6ae3fb;
 }

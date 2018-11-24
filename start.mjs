@@ -9,13 +9,15 @@ const app = express();
 app.use(express.static('public'));
 
 app.get('/', (request, response) => {
+	const userAgent = request.headers['user-agent'];
+
 	response.set('Content-Type', 'text/html');
 
 	getZIP.then(
-		zip => getSummaryFromZip(zip)
+		zip => getSummaryFromZip(request.query.zip || zip)
 	).then(
 		summary => {
-			const documentHTML = getDocumentHTMLFromSummary(summary)
+			const documentHTML = getDocumentHTMLFromSummary(summary, userAgent)
 
 			response.send(documentHTML);
 		}
@@ -25,14 +27,15 @@ app.get('/', (request, response) => {
 const pathRegExp = /^\/(\d+)$/;
 
 app.get(pathRegExp, (request, response) => {
+	const userAgent = request.headers['user-agent'];
+
 	response.set('Content-Type', 'text/html');
 
-	const [, zipString] = request.path.match(pathRegExp);
-	const zip = Number(zipString);
+	const [, zip] = request.path.match(pathRegExp);
 
 	getSummaryFromZip(zip).then(
 		summary => {
-			const documentHTML = getDocumentHTMLFromSummary(summary)
+			const documentHTML = getDocumentHTMLFromSummary(summary, userAgent)
 
 			response.send(documentHTML);
 		}
