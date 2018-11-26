@@ -1,9 +1,10 @@
 import getFragmentHTMLFromSummary from './lib/get-fragment-html-from-summary';
-import getSummaryFromZip from './lib/get-summary-from-zip';
+import getPositionFromZip from './lib/get-position-from-zip';
+import getSummaryFromPosition from './lib/get-summary-from-position';
 import htmldiff from './lib/htmldiff';
 
-export default function bundle(initialZIP) {
-	let currentZIP = initialZIP;
+export default function bundle(initialLocation) {
+	let currentLocation = initialLocation;
 
 	window.addEventListener('popstate', onStateChange);
 	window.addEventListener('click', onClick);
@@ -11,14 +12,22 @@ export default function bundle(initialZIP) {
 	window.addEventListener('submit', onSubmit);
 
 	setInterval(() => {
-		zip2forecast();
+		updateForecast();
 	}, 1000);
 
-	function zip2forecast() {
+	function updateForecast() {
+		if (currentLocation.zip) {
+			getPositionFromZip(currentLocation.zip).then(position2forecast);
+		} else {
+			position2forecast(currentLocation)
+		}
+	}
+
+	function position2forecast(position) {
 		const root = document.getElementById('root');
 
 		if (root) {
-			getSummaryFromZip(currentZIP).then(
+			getSummaryFromPosition(position).then(
 				summary => {
 					const fragmentHTML = getFragmentHTMLFromSummary(summary);
 
@@ -29,24 +38,49 @@ export default function bundle(initialZIP) {
 	}
 
 	function onStateChange(event) {
-		currentZIP = event.state || initialZIP;
+		currentLocation = event.state
+			? /^\d+$/.test(event.state)
+				? { zip: Number(event.state) }
+			: {
+				latitude: event.state.split(/[^-+0-9.]+/)[0],
+				longitude: event.state.split(/[^-+0-9.]+/)[1]
+			}
+		: initialLocation;
 
-		zip2forecast();
+		updateForecast();
 	}
 
 	function onClick(event) {
 		// detect toggle
-		if (event.target.classList.contains('dra-nav-toggle')) {
+		if (event.target.closest('.dra-current_location')) {
+			navigator.geolocation.getCurrentPosition(
+				function onPass(position) {
+					const nextLocation = position.coords.latitude + ',' + position.coords.longitude;
+
+					window.history.pushState(nextLocation, null, nextLocation);
+
+					onStateChange({ state: nextLocation });
+
+					document.querySelector('.dra-nav').classList.remove('is-open');
+				},
+				function onFail(error) {
+					console.error(error);
+				},
+				{
+					timeout: 6000
+				}
+			)
+		} else if (event.target.closest('.dra-nav-toggle')) {
 			document.querySelector('.dra-nav').classList.toggle('is-open');
 		} else if (event.target.pathname) {
-			const nextZIP = event.target.pathname.slice(1);
+			const nextLocation = event.target.pathname.slice(1);
 
-			if (nextZIP) {
+			if (nextLocation) {
 				event.preventDefault();
 
-				window.history.pushState(nextZIP, null, nextZIP);
+				window.history.pushState(nextLocation, null, nextLocation);
 
-				onStateChange({ state: nextZIP });
+				onStateChange({ state: nextLocation });
 			}
 		}
 	}
@@ -60,14 +94,12 @@ export default function bundle(initialZIP) {
 	function onSubmit(event) {
 		event.preventDefault();
 
-		const nextZIP = event.target.elements.zip.value;
+		const nextLocation = event.target.elements.loc.value;
 
-		if (currentZIP) {
-			document.querySelector('.dra-nav').classList.remove('is-open');
+		window.history.pushState(nextLocation, null, nextLocation);
 
-			window.history.pushState(nextZIP, null, nextZIP);
+		onStateChange({ state: nextLocation });
 
-			onStateChange({ state: nextZIP });
-		}
+		document.querySelector('.dra-nav').classList.remove('is-open');
 	}
 }

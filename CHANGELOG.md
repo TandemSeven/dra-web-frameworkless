@@ -1,5 +1,10 @@
 # dra-web-frameworkless
 
+### 0.3.0
+
+- Support latitude and longitude URLs for SSR and live
+- Support Geolocation
+
 ### 0.2.0
 
 - Added: Side navigation with search form

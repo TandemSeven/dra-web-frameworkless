@@ -1,7 +1,7 @@
 import fetch from 'node-fetch'; global.fetch = fetch;
 import express from 'express';
-import getZIP from './lib/get-zip';
-import getSummaryFromZip from './lib/get-summary-from-zip';
+import getPositionFromZip from './lib/get-position-from-zip';
+import getSummaryFromPosition from './lib/get-summary-from-position';
 import getDocumentHTMLFromSummary from './lib/get-document-html-from-summary';
 
 const app = express();
@@ -13,29 +13,45 @@ app.get('/', (request, response) => {
 
 	response.set('Content-Type', 'text/html');
 
-	getZIP.then(
-		zip => getSummaryFromZip(request.query.zip || zip)
+	const loc = request.query.loc
+		? /^\d+$/.test(request.query.loc)
+			? { zip: Number(request.query.loc) }
+		: {
+			latitude: request.query.loc.split(/[^-+0-9.]+/)[0],
+			longitude: request.query.loc.split(/[^-+0-9.]+/)[1]
+		}
+	: { zip: 92802 };
+
+	(
+		loc.zip
+			? getPositionFromZip(loc.zip).then(getSummaryFromPosition)
+		: getSummaryFromPosition(loc)
 	).then(
 		summary => {
-			const documentHTML = getDocumentHTMLFromSummary(summary, userAgent)
+			const documentHTML = getDocumentHTMLFromSummary(summary, loc, userAgent)
 
 			response.send(documentHTML);
 		}
 	)
 });
 
-const pathRegExp = /^\/(\d+)$/;
+const pathRegExp = /^\/(?:(\d+)|([-+]?[0-9]*\.?[0-9]+)(?:,|%20)([-+]?[0-9]*\.?[0-9]+))$/;
 
 app.get(pathRegExp, (request, response) => {
 	const userAgent = request.headers['user-agent'];
 
 	response.set('Content-Type', 'text/html');
 
-	const [, zip] = request.path.match(pathRegExp);
+	const [, zip, latitude, longitude] = request.path.match(pathRegExp);
+	const loc = { zip, latitude, longitude };
 
-	getSummaryFromZip(zip).then(
+	(
+		loc.zip
+			? getPositionFromZip(loc.zip).then(getSummaryFromPosition)
+		: getSummaryFromPosition(loc)
+	).then(
 		summary => {
-			const documentHTML = getDocumentHTMLFromSummary(summary, userAgent)
+			const documentHTML = getDocumentHTMLFromSummary(summary, loc, userAgent)
 
 			response.send(documentHTML);
 		}
