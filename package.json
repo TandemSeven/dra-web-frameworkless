@@ -1,6 +1,6 @@
 {
   "name": "dra-web-frameworkless",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Fetch the weather with native web APIs",
   "scripts": {
     "build": "rollup -c --silent",
@@ -19,7 +19,8 @@
     "rollup": "^0.67.3",
     "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-node-resolve": "^3.4.0",
-    "rollup-plugin-terser": "^3.0.0"
+    "rollup-plugin-terser": "^3.0.0",
+    "shrink-ray-current": "^3.0.2"
   },
   "private": true
 }

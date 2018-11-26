@@ -1,5 +1,9 @@
 # dra-web-frameworkless
 
+### 0.4.0
+
+- Support brotli and zopfli compression
+
 ### 0.3.0
 
 - Support latitude and longitude URLs for SSR and live

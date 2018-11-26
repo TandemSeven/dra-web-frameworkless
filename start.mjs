@@ -1,11 +1,13 @@
 import fetch from 'node-fetch'; global.fetch = fetch;
 import express from 'express';
+import compression from 'shrink-ray-current';
 import getPositionFromZip from './lib/get-position-from-zip';
 import getSummaryFromPosition from './lib/get-summary-from-position';
 import getDocumentHTMLFromSummary from './lib/get-document-html-from-summary';
 
 const app = express();
 
+app.use(compression());
 app.use(express.static('public'));
 
 app.get('/', (request, response) => {
