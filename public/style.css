@@ -7,6 +7,10 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 }
 
+button, input, select, textarea {
+	box-shadow: none;
+}
+
 header {
 	background-color: #00adcf;
 	background-position: center;
@@ -188,7 +192,8 @@ aside > a {
 }
 
 .dra-input {
-	border: none;
+	background-color: #fff;
+	color: #000;
 	border-radius: 30px;
 	font: inherit;
 }
